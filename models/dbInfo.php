@@ -8,7 +8,7 @@ class dbInfo
     private $pwd = "";
     private $dbName = "online_supermarket";
 
-    public function connect()
+    protected function connect()
     {
         $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbName;
         $pdo = new PDO($dsn, $this->user, $this->pwd);

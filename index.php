@@ -1,15 +1,18 @@
 <?php
 require_once "autoloader.php";
 require_once "header.php";
+session_start();
 ?>
 
 <body><?php require_once "navbar.php"; ?>
 
     <div class="container d-flex flex-column text-center mb-5">
         <h1>Our products</h1>
+
         <div class="row">
             <?php
-            $prodCon = new ProductController();
+
+            //$prodCon = new ProductController();
             /* $prodCon->insertProduct("lentils", 2.50, "marocco", "assets/imgs/lentils.webp", "Good tasting lentils", 1);
             $prodCon->insertProduct("chickpeas", 2.99, "spain", "assets/imgs/chickpeas.jpg", "Good chickpeas", 1);
             $prodCon->insertProduct("rice", 0.99, "italia", "assets/imgs/rice.webp", "italian rice", 1);
