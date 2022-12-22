@@ -1,13 +1,21 @@
 <?php
 
-require_once "./models/product.php";
-require_once "./models/dbInfo.php";
-
-class ProductController extends dbInfo
+class ProductController extends Product
 {
-    public function getProducts()
+    public function addProduct($name, $price, $origin, $fotoUrl, $description, $categoryId)
     {
-        $sql = "SELECT * FROM PRODUCTS";
-        return $stmt = $this->connect()->query($sql);
+        $this->insertProduct($name, $price, $origin, $fotoUrl, $description, $categoryId);
+    }
+    public function alterProduct($id, $name, $price, $origin, $fotoUrl, $description, $categoryId)
+    {
+        $this->updateProduct($id, $name, $price, $origin, $fotoUrl, $description, $categoryId);
+    }
+    public function retrieveAllProducts()
+    {
+        return $this->getProducts();
+    }
+    public function retrieveProductsById($id)
+    {
+        return $this->getProductById($id);
     }
 }
