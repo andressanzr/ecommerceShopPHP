@@ -7,11 +7,15 @@ class UserController extends User
 {
     public function loginUser($email, $password)
     {
-        $res = $this->login($email, $password);
-        if ($res) {
-            header("Location: ../index.php?info=logedIn");
+        if (strlen($email) <= 0 || strlen($password) <= 0) {
+            header("Location: ../login.php?error=emptyInput");
         } else {
-            header("Location: ../login.php?error=loginFailed");
+            $res = $this->login($email, $password);
+            if ($res) {
+                header("Location: ../index.php?info=logedIn");
+            } else {
+                header("Location: ../login.php?error=loginFailed");
+            }
         }
     }
     public function signUpUser($name, $email, $password)

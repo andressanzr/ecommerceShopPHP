@@ -1,4 +1,5 @@
 <?php
+require_once "dbInfo.php";
 
 class Cart extends dbInfo
 {
@@ -11,24 +12,58 @@ class Cart extends dbInfo
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    protected function getUserCart($userId)
+    {
+        $sql = "SELECT * FROM carts WHERE userId=?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll();
+    }
     protected function getProductsFromCart($cartId)
     {
-        $sql = "SELECT * FROM cart_items INNER JOIN carts ON cart_items.cartId=carts.id";
+        $sql = "SELECT * FROM cart_items WHERE cartId=?";
         $stmt = $this->connect()->prepare($sql);
-        $stmt->execute($cartId);
+        $stmt->execute([$cartId]);
         return $stmt;
+    }
+    protected function getProductsFromUser($userId)
+    {
+        $sql = "SELECT *,cart_items.id as cartItemId FROM cart_items INNER JOIN products ON cart_items.productId=products.id WHERE userId=?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt;
+    }
+    protected function getProductFromCart($cartId, $productId)
+    {
+        $sql = "SELECT * FROM cart_items WHERE cartId=? AND productId=?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$cartId, $productId]);
+        return $stmt->fetchAll();
     }
     protected function insertCart($userId)
     {
         $sql = "INSERT INTO carts(userId) values(?)";
         $stmt = $this->connect()->prepare($sql);
-        return $stmt->execute([$userId]);
+        $stmt->execute([$userId]);
+        return $stmt->fetchObject();
     }
     protected function insertProductToCart($productId, $cartId,  $userId, $quantity)
     {
-        $sql = "INSERT INTO cart_items(productId,cartId,userId,quantity) values(?,?,?)";
+        $sql = "INSERT INTO cart_items(productId,cartId,userId,quantity) values(?,?,?,?)";
         $stmt = $this->connect()->prepare($sql);
         return $stmt->execute([$productId, $cartId,  $userId, $quantity]);
+    }
+    protected function updateQuantityProduct($cartId, $productId, $quantity)
+    {
+        $sql = "UPDATE cart_items SET quantity=? WHERE cartId = ? AND productId=?";
+        $stmt = $this->connect()->prepare($sql);
+        return $stmt->execute([$quantity, $cartId, $productId]);
+    }
+    protected function removeProductFromCart($productId)
+    {
+        $sql = "DELETE FROM cart_items WHERE id=?";
+        $stmt = $this->connect()->prepare($sql);
+        return $stmt->execute([$productId]);
     }
     /*
     protected function updateProduct($id, $name, $price, $origin, $fotoUrl, $description, $categoryId)

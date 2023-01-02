@@ -2,15 +2,28 @@
 require_once "autoloader.php";
 require_once "header.php";
 
-
-
 ?>
 
 <body>
     <?php require_once "navbar.php"; ?>
     <div class="container d-flex flex-column text-center mb-5 h-100 mt-5">
-        <div class="col-10 offset-1 col-sm-8 col-md-6 offset-md-3 align-center">
+        <div class="col-10 offset-1 col-sm-8 col-md-4 offset-md-4 align-center">
             <h1>Login</h1>
+            <?php if (isset($_GET["error"])) {
+                $msg;
+                switch ($_GET["error"]) {
+                    case "emptyInput":
+                        $msg = "Empty fields";
+                        break;
+                    case "loginFailed":
+                        $msg = "Username or password not matching";
+                        break;
+                    case "notLogedIn":
+                        $msg = "Please Login or register";
+                        break;
+                }
+                echo "<p style=\"color:red\">$msg!</p>";
+            } ?>
             <form action="controllers/userController.php" method="post">
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>

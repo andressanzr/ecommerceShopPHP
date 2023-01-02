@@ -9,7 +9,8 @@ require_once "header.php";
 <body>
     <?php require_once "navbar.php"; ?>
     <div class="container d-flex flex-column text-center mb-5 h-100 mt-5">
-        <div class="col-10 offset-1 col-sm-8 col-md-6 offset-md-3 align-center">
+        <div class="col-10 offset-1 col-sm-8 col-md-4 offset-md-4 align-center">
+
             <h1>Sign Up</h1>
             <form action="controllers/userController.php" method="post">
                 <div class="mb-3">

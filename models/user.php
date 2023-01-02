@@ -9,7 +9,7 @@ class User extends dbInfo
         $stmt->execute([$email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    protected function login($email, $password)
+    public function login($email, $password)
     {
         $res = $this->checkUserDb($email);
         if ($res) {
@@ -26,7 +26,7 @@ class User extends dbInfo
             return false;
         }
     }
-    protected function insertUser($name, $email, $password, $address_line_1, $city, $country, $phone)
+    public function insertUser($name, $email, $password, $address_line_1, $city, $country, $phone)
     {
         $hashedpwd = password_hash($password, PASSWORD_DEFAULT);
         $sql = "INSERT INTO users(name,email,password,address_line_1,city,country,phone) values(?,?,?,?,?,?,?)";
