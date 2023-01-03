@@ -5,6 +5,7 @@ class CartView extends CartController
     public function showProductsFromUser($userId)
     {
         $products = $this->retrieveProductsFromUser($userId);
+
         $out = "";
         foreach ($products as $prod) {
             $out .= "<div class='col-12 col-sm-4 d-flex flex-column align-items-center'>
@@ -28,7 +29,7 @@ class CartView extends CartController
         foreach ($products as $prod) {
             $total += $prod["price"] * $prod["quantity"];
         }
-        $out = "<div><p><b>" . $total . "€</b></p><button class='btn btn-primary'>Continue Order</button></div>";
+        $out = "<div><p><b>" . $total . "€</b></p></div>";
         echo $out;
     }
 }

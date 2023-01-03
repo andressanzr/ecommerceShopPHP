@@ -31,7 +31,12 @@ class CartController extends Cart
     public function removeProductFromCartItems($productId)
     {
         $this->removeProductFromCart($productId);
-        header("Location: cart.php");
+        header("Location: ../cart.php");
+    }
+    public function clearCart($userId)
+    {
+        $userCart = $this->getUserCart($userId)[0];
+        $this->removeCart($userCart["id"]);
     }
     protected function retrieveCartById($id)
     {

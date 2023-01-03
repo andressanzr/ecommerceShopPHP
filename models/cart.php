@@ -12,26 +12,33 @@ class Cart extends dbInfo
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    protected function getUserCart($userId)
+    public function getUserCart($userId)
     {
         $sql = "SELECT * FROM carts WHERE userId=?";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$userId]);
         return $stmt->fetchAll();
     }
-    protected function getProductsFromCart($cartId)
+    public function getProductsFromCart($cartId)
     {
         $sql = "SELECT * FROM cart_items WHERE cartId=?";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$cartId]);
         return $stmt;
     }
-    protected function getProductsFromUser($userId)
+    public function getProductsFromUser($userId)
     {
         $sql = "SELECT *,cart_items.id as cartItemId FROM cart_items INNER JOIN products ON cart_items.productId=products.id WHERE userId=?";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$userId]);
         return $stmt;
+    }
+    public function getProdIdFromUser($userId)
+    {
+        $sql = "SELECT productId FROM cart_items WHERE userId=?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_NUM);
     }
     protected function getProductFromCart($cartId, $productId)
     {
@@ -65,6 +72,13 @@ class Cart extends dbInfo
         $stmt = $this->connect()->prepare($sql);
         return $stmt->execute([$productId]);
     }
+    protected function removeCart($cartId)
+    {
+        $sql = "DELETE FROM cart_items WHERE cartId=?";
+        $stmt = $this->connect()->prepare($sql);
+        return $stmt->execute([$cartId]);
+    }
+
     /*
     protected function updateProduct($id, $name, $price, $origin, $fotoUrl, $description, $categoryId)
     {

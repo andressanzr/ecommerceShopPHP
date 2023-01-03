@@ -22,9 +22,9 @@ require_once "navbar.php";
         <h3>Order Total</h3>
         <?php
         $cartView = new CartView();
-        $cartView->showOrderTotal($_SESSION["userId"]);
+        $cartView->showOrderTotal($_SESSION["userId"]); ?>
+        <a href='orderAddress.php'><button class='btn btn-primary'>Continue Order</button></a>
 
-        ?>
     </div>
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
