@@ -1,7 +1,7 @@
 <?php
 //var_dump($_SERVER);
 require_once "../models/user.php";
-require_once "../views/userView.php";
+
 
 class UserController extends User
 {

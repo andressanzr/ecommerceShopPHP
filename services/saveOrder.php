@@ -20,15 +20,12 @@ if (isset($_POST["address_line_1"]) && isset($_POST["city"]) && isset($_POST["co
     $city = $_COOKIE['city'];
     $country = $_COOKIE['country'];
     $paymentMethod = $_COOKIE['paymentMethod'];
-    $products = $cartController->getProdIdFromUser($_SESSION["userId"]);
-
-    $idArray;
-    for ($x = 0; $x < count($products); $x++) {
-        $idArray[$x] = (int)($products[$x][0]);
-    }
+    $products = $cartController->getCartItemsFromUser($_SESSION["userId"]);
 
 
-    $orderController->addOrderDao($_SESSION["userId"], $idArray, $address_line_1, $city, $country, $paymentMethod);
+
+
+    $orderController->addOrderDao($_SESSION["userId"], $products, $address_line_1, $city, $country, $paymentMethod);
     //$cartController->clearCart($_SESSION["userId"]);
     //$orderController->clearOrderCookies();
     header("Location: ../index.php?orderPlaces=true");

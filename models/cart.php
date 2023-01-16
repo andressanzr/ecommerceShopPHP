@@ -40,6 +40,13 @@ class Cart extends dbInfo
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_NUM);
     }
+    public function getCartItemsFromUser($userId)
+    {
+        $sql = "SELECT * FROM cart_items WHERE userId=?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_NUM);
+    }
     protected function getProductFromCart($cartId, $productId)
     {
         $sql = "SELECT * FROM cart_items WHERE cartId=? AND productId=?";
@@ -72,11 +79,17 @@ class Cart extends dbInfo
         $stmt = $this->connect()->prepare($sql);
         return $stmt->execute([$productId]);
     }
-    protected function removeCart($cartId)
+    protected function removeUserCartItemsFrom($userId)
     {
-        $sql = "DELETE FROM cart_items WHERE cartId=?";
+        $sql = "DELETE FROM cart_items WHERE userId=?";
         $stmt = $this->connect()->prepare($sql);
-        return $stmt->execute([$cartId]);
+        return $stmt->execute([$userId]);
+    }
+    protected function removeUserCart($userId)
+    {
+        $sql = "DELETE FROM carts WHERE userId=?";
+        $stmt = $this->connect()->prepare($sql);
+        return $stmt->execute([$userId]);
     }
 
     /*

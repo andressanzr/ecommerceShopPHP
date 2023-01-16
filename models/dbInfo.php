@@ -2,11 +2,11 @@
 
 class dbInfo
 {
-
     private $host = "localhost";
     private $user = "root";
     private $pwd = "";
     private $dbName = "online_supermarket";
+
 
     protected function connect()
     {

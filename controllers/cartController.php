@@ -8,14 +8,14 @@ class CartController extends Cart
     }
     public function addProductToCart($productId,  $userId, $quantity)
     {
-        $userCart = $this->getUserCart($userId)[0];
-
+        $userCart = $this->getUserCart($userId);
         if (is_null($userCart)) {
             $this->addCart($userId);
             $cartUser = $this->retrieveUserCart($userId)[0];
             $this->insertProductToCart($productId, $cartUser['id'], $userId, $quantity);
             header("Location: ../index.php?productInserted=1");
         } else {
+            $userCart = $userCart[0];
             //check if user already has the product in the cart
             $prod = $this->retrieveSingleProductFromCart($userCart['id'], $productId)[0];
             if (is_null($prod)) {
@@ -33,10 +33,10 @@ class CartController extends Cart
         $this->removeProductFromCart($productId);
         header("Location: ../cart.php");
     }
-    public function clearCart($userId)
+    public function removeCartAndCartItemsUser($userId)
     {
-        $userCart = $this->getUserCart($userId)[0];
-        $this->removeCart($userCart["id"]);
+        $this->removeUserCartItemsFrom($userId);
+        $this->removeUserCart($userId);
     }
     protected function retrieveCartById($id)
     {

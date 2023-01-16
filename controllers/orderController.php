@@ -8,9 +8,12 @@ class OrderController extends Order
         $orderDate = date('Y-m-d H:i:s');
         $this->addOrder($userId, $orderDate, $address_line_1, $city, $country, $payment_method);
         $orderId = $this->getOrderByDateUserId($userId, $orderDate)[0]["id"];
+        $cartController = new CartController();
         foreach ($products as $prod) {
-            $this->addItemsToOrder($orderId, $prod);
+            //add orderId productId and quantity
+            $this->addItemToOrder($orderId, $prod[1], $prod[4]);
         }
+        $cartController->removeCartAndCartItemsUser($_SESSION["userId"]);
         return true;
     }
     public function saveAddressCookie($address_line_1, $city, $country)
@@ -33,5 +36,17 @@ class OrderController extends Order
         unset($_COOKIE["city"]);
         unset($_COOKIE["country"]);
         unset($_COOKIE["paymentMethod"]);
+    }
+    public function getOrdersFromUser($userId)
+    {
+        return $this->getOrderByUserId($userId);
+    }
+    public function getItemsFromOrder($orderId)
+    {
+        return $this->getItemsFromOrderId($orderId);
+    }
+    public function getOrderItemsDetails($orderId)
+    {
+        return $this->getItemsFromOrderJoinProducts($orderId);
     }
 }

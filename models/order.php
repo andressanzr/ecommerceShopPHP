@@ -10,11 +10,11 @@ class Order extends dbInfo
         return $stmt->execute([$userId, $orderDate, $address_line_1, $city, $country, $payment_method]);
     }
 
-    protected function addItemsToOrder($orderId, $productId)
+    protected function addItemToOrder($orderId, $productId, $quantity)
     {
-        $sql = "INSERT INTO order_items(orderId,productId) values(?,?)";
+        $sql = "INSERT INTO order_items(orderId,productId,quantity) values(?,?,?)";
         $stmt = $this->connect()->prepare($sql);
-        return $stmt->execute([$orderId, $productId]);
+        return $stmt->execute([$orderId, $productId, $quantity]);
     }
 
     protected function getOrderByDateUserId($userId, $date)
@@ -23,5 +23,26 @@ class Order extends dbInfo
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$userId, $date]);
         return $stmt->fetchAll();
+    }
+    protected function getOrderByUserId($userId)
+    {
+        $sql = "SELECT * FROM orders WHERE userId=?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll();
+    }
+    protected function getItemsFromOrderId($orderId)
+    {
+        $sql = "SELECT * FROM order_items WHERE orderId=?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$orderId]);
+        return $stmt->fetchAll();
+    }
+    public function getItemsFromOrderJoinProducts($orderId)
+    {
+        $sql = "SELECT * FROM order_items INNER JOIN products ON order_items.productId=products.id WHERE orderId=?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$orderId]);
+        return $stmt;
     }
 }
