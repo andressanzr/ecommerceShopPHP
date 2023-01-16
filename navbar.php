@@ -29,8 +29,15 @@
                     <a class="nav-link disabled">Disabled</a>
                 </li>
             </ul>
-            <ul>
-                <i class="fa-solid fa-user"></i>
+            <ul class="navbar-nav ms-auto">
+                <a class="text-dark" href="cart.php"><i class="fa-solid fa-cart-shopping p-2" style="font-size: 2rem;"></i></a>
+                <?php if (isset($_SESSION["userId"])) {
+                    echo '<a class="text-dark" href="account.php"><i class="fa-solid fa-user p-2" style="font-size: 2rem;"> </i></a>';
+                } else {
+                    echo '<a class="text-dark" href="login.php"><i class="fa-solid fa-user p-2" style="font-size: 2rem;"> </i></a>';
+                }
+                ?>
+                <?php if (isset($_SESSION["userId"])) echo '<li class="nav-item"><a class="nav-link"  href="logout.php">Logout</a></li>'; ?>
             </ul>
         </div>
     </div>

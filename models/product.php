@@ -4,7 +4,7 @@ class Product extends dbInfo
 {
     private $id, $name, $price, $origin, $fotoUrl, $description, $categoryId;
     /*
-    public function __construct($name, $price, $origin, $fotoUrl, $description, $categoryId)
+    protected function __construct($name, $price, $origin, $fotoUrl, $description, $categoryId)
     {
         $this->name = $name;
         $this->price = $price;
@@ -14,12 +14,12 @@ class Product extends dbInfo
         $this->categoryId = $categoryId;
     }
 */
-    public function getProducts()
+    protected function getProducts()
     {
         $sql = "SELECT * FROM PRODUCTS";
         return $stmt = $this->connect()->query($sql);
     }
-    public function getProductById($id)
+    protected function getProductById($id)
     {
         $sql = "SELECT * FROM PRODUCTS WHERE id=$id";
         $stmt = $this->connect()->prepare($sql);
@@ -27,26 +27,26 @@ class Product extends dbInfo
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    public function getProductsFromCategroy($categoryId)
+    protected function getProductsFromCategroy($categoryId)
     {
         $sql = "SELECT * FROM PRODUCTS WHERE categoryId=?";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute($categoryId);
         return $stmt;
     }
-    public function insertProduct($name, $price, $origin, $fotoUrl, $description, $categoryId)
+    protected function insertProduct($name, $price, $origin, $fotoUrl, $description, $categoryId)
     {
         $sql = "INSERT INTO products(name,price,origin,fotoUrl,description,categoryId) values(?,?,?,?,?,?)";
         $stmt = $this->connect()->prepare($sql);
         return $stmt->execute([$name, $price, $origin, $fotoUrl, $description, $categoryId]);
     }
-    public function updateProduct($id, $name, $price, $origin, $fotoUrl, $description, $categoryId)
+    protected function updateProduct($id, $name, $price, $origin, $fotoUrl, $description, $categoryId)
     {
         $sql = "UPDATE products SET name = ?, price= ?,origin=?,fotoUrl=?,description=?,categoryId=? WHERE id = ?";
         $stmt = $this->connect()->prepare($sql);
         return $stmt->execute([$name, $price, $origin, $fotoUrl, $description, $categoryId, $id]);
     }
-    public function removeProduct($id)
+    protected function removeProduct($id)
     {
         $sql = "DELETE FROM products WHERE id = ?";
         $stmt = $this->connect()->prepare($sql);
